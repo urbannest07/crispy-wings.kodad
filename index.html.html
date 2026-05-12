@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crispy & Wings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#F5C518;--bg:#0D0D0D;--bg2:#161616;--bg3:#1E1E1E;--bg4:#252525;
+  --border:#252525;--border2:#333;--text:#F0F0F0;--text2:#888;--text3:#555;
+  --green:#22C55E;--red:#EF4444;--blue:#3B82F6;--purple:#A855F7;--orange:#F97316;
+  --r:14px;--rs:8px;--rxs:6px
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── LANDING ── */
+#landing{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:2.5rem;padding:2rem}
+.ll{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:2px;color:var(--brand);text-align:center}
+.ll small{display:block;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text2);letter-spacing:0;font-weight:400;margin-top:4px}
+.role-cards{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.rc{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--r);padding:2rem 2.5rem;text-align:center;cursor:pointer;transition:border-color .2s,transform .2s;min-width:200px}
+.rc:hover{border-color:var(--brand);transform:translateY(-3px)}
+.rc .rci{font-size:2.5rem;margin-bottom:.75rem}
+.rc h3{font-size:18px;font-weight:500;color:var(--text);margin-bottom:6px}
+.rc p{font-size:13px;color:var(--text2);line-height:1.5}
+
+/* ── LOGIN ── */
+#owner-login{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;z-index:999;padding:2rem}
+.lbox{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--r);padding:2.5rem;width:100%;max-width:380px}
+.lbox h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:1px;color:var(--brand);margin-bottom:.25rem}
+.lbox > p{font-size:13px;color:var(--text2);margin-bottom:1.75rem}
+.fi{margin-bottom:1.1rem}
+.fi label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px}
+.fi input{width:100%;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--rs);padding:10px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none}
+.fi input:focus{border-color:var(--brand)}
+.lbtn{width:100%;background:var(--brand);color:#111;border:none;padding:12px;border-radius:var(--rs);font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.5rem}
+.lerr{color:var(--red);font-size:13px;margin-top:.5rem;display:none}
+.bk{font-size:13px;color:var(--text2);cursor:pointer;text-align:center;margin-top:1rem}
+.bk:hover{color:var(--text)}
+
+/* ── NAV ── */
+#app{display:none}
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(13,13,13,.96);backdrop-filter:blur(14px);z-index:100}
+.nlogo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;color:var(--brand)}
+.nright{display:flex;align-items:center;gap:12px}
+.mbadge{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
+.mbadge.o{background:rgba(245,197,24,.15);color:var(--brand);border:0.5px solid rgba(245,197,24,.3)}
+.mbadge.c{background:rgba(34,197,94,.12);color:var(--green);border:0.5px solid rgba(34,197,94,.25)}
+.nsw{font-size:13px;color:var(--text2);cursor:pointer;background:var(--bg2);border:0.5px solid var(--border2);padding:7px 14px;border-radius:var(--rs)}
+.nsw:hover{color:var(--text)}
+
+/* ── OWNER PANEL ── */
+#op{display:none;padding:2rem;max-width:980px;margin:0 auto}
+.dh{margin-bottom:2rem}
+.dh h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:1px;color:#fff}
+.dh p{font-size:14px;color:var(--text2);margin-top:4px}
+.dtabs{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap}
+.dtab{background:var(--bg2);border:0.5px solid var(--border);color:var(--text2);padding:8px 18px;border-radius:20px;font-size:13px;cursor:pointer;transition:all .2s}
+.dtab.active{background:var(--brand);color:#111;border-color:var(--brand)}
+.dsec{display:none}
+.dsec.active{display:block}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:600px){.fg{grid-template-columns:1fr}}
+.fg1{margin-bottom:1.1rem}
+.fg1 label{display:block;font-size:12px;color:var(--text2);margin-bottom:6px}
+.fg1 input,.fg1 textarea,.fg1 select{width:100%;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--rs);padding:10px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical}
+.fg1 input:focus,.fg1 textarea:focus{border-color:var(--brand)}
+.fg1 textarea{min-height:80px}
+.cr{display:flex;align-items:center;gap:12px}
+.cr input[type=color]{width:44px;height:36px;border-radius:var(--rxs);border:0.5px solid var(--border2);background:var(--bg3);cursor:pointer;padding:2px}
+.sbtn{background:var(--brand);color:#111;border:none;padding:11px 28px;border-radius:var(--rs);font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.sbtn:hover{opacity:.88}
+.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1.25rem}
+.ct{font-size:15px;font-weight:500;color:var(--text);margin-bottom:1rem}
+
+/* MEDIA */
+.uz{border:1.5px dashed var(--border2);border-radius:var(--r);padding:2.5rem;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:1.25rem}
+.uz:hover{border-color:var(--brand)}
+.uz .uzi{font-size:2.5rem;margin-bottom:.75rem}
+.uz h3{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px}
+.uz p{font-size:13px;color:var(--text2)}
+.uz input{display:none}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.mth{position:relative;border-radius:var(--rs);overflow:hidden;aspect-ratio:1;background:var(--bg3)}
+.mth img,.mth video{width:100%;height:100%;object-fit:cover}
+.mth .xbtn{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);color:#fff;border:none;width:26px;height:26px;border-radius:50%;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mth .mlabel{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.6);font-size:11px;color:#ccc;padding:4px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* MENU MGR */
+.mir{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--rs);padding:1rem;margin-bottom:10px}
+.mir .mt{display:flex;gap:10px;align-items:flex-start}
+.mir .me{font-size:1.5rem;min-width:36px}
+.mir .mi{flex:1}
+.mir .mi h4{font-size:14px;font-weight:500;color:var(--text)}
+.mir .mi p{font-size:12px;color:var(--text2);margin-top:2px}
+.mir .ma{display:flex;gap:8px;margin-top:.75rem}
+.ebtn{background:var(--bg4);border:0.5px solid var(--border2);color:var(--text2);padding:5px 14px;border-radius:var(--rxs);font-size:12px;cursor:pointer}
+.dbtn2{background:rgba(239,68,68,.1);border:0.5px solid rgba(239,68,68,.2);color:var(--red);padding:5px 14px;border-radius:var(--rxs);font-size:12px;cursor:pointer}
+.addbtn{background:transparent;border:0.5px dashed var(--border2);color:var(--text2);padding:10px;border-radius:var(--rs);font-size:13px;cursor:pointer;width:100%;margin-top:8px;font-family:'DM Sans',sans-serif;transition:border-color .2s}
+.addbtn:hover{border-color:var(--brand);color:var(--brand)}
+.pb{font-size:13px;font-weight:500;color:var(--brand);white-space:nowrap;padding-left:8px}
+
+/* PAYMENT HISTORY */
+.phs{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.5rem}
+.phst{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--rs);padding:1rem;text-align:center}
+.phsn{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;color:var(--brand);letter-spacing:1px}
+.phsl{font-size:12px;color:var(--text2);margin-top:2px}
+.phfr{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem}
+.phf{background:var(--bg3);border:0.5px solid var(--border);color:var(--text2);padding:6px 14px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.phf.active{background:var(--brand);color:#111;border-color:var(--brand)}
+.pht{width:100%;border-collapse:collapse}
+.pht th{font-size:11px;color:var(--text3);text-align:left;padding:8px 12px;border-bottom:0.5px solid var(--border);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.pht td{font-size:13px;color:var(--text2);padding:12px;border-bottom:0.5px solid var(--border);vertical-align:middle}
+.pht tr:last-child td{border-bottom:none}
+.pht tr:hover td{background:var(--bg3)}
+.phn{color:var(--text);font-weight:500}
+.phb{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.phb.upi{background:rgba(59,130,246,.12);color:#60A5FA;border:0.5px solid rgba(59,130,246,.2)}
+.phb.cash{background:rgba(34,197,94,.12);color:#4ADE80;border:0.5px solid rgba(34,197,94,.2)}
+.phb.card{background:rgba(168,85,247,.12);color:#C084FC;border:0.5px solid rgba(168,85,247,.2)}
+.phb.cod{background:rgba(249,115,22,.12);color:#FB923C;border:0.5px solid rgba(249,115,22,.2)}
+.phb.wallet{background:rgba(236,72,153,.12);color:#F472B6;border:0.5px solid rgba(236,72,153,.2)}
+.phs2{display:inline-block;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500}
+.phs2.paid{background:rgba(34,197,94,.12);color:#4ADE80}
+.phs2.pending{background:rgba(245,197,24,.12);color:var(--brand)}
+.phs2.failed{background:rgba(239,68,68,.12);color:#F87171}
+.phempty{text-align:center;padding:3rem;color:var(--text3);font-size:14px}
+.exbtn{background:var(--bg3);border:0.5px solid var(--border2);color:var(--text2);padding:8px 18px;border-radius:var(--rs);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.exbtn:hover{color:var(--text)}
+
+/* SETTINGS TOGGLE */
+.sr{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:0.5px solid var(--border)}
+.sr:last-child{border-bottom:none}
+.sr .srl{font-size:14px;color:var(--text)}
+.sr .srs{font-size:12px;color:var(--text2);margin-top:2px}
+.tgl{position:relative;width:44px;height:24px;cursor:pointer}
+.tgl input{opacity:0;width:0;height:0}
+.tgls{position:absolute;inset:0;background:var(--bg4);border-radius:12px;transition:.3s}
+.tgls:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:#888;border-radius:50%;transition:.3s}
+.tgl input:checked+.tgls{background:var(--brand)}
+.tgl input:checked+.tgls:before{transform:translateX(20px);background:#111}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;display:none;align-items:center;justify-content:center;padding:1rem}
+.mo.open{display:flex}
+.mb{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--r);padding:2rem;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.mb h3{font-size:17px;font-weight:500;color:var(--text);margin-bottom:1.25rem}
+.mf{display:flex;gap:10px;justify-content:flex-end;margin-top:1.25rem}
+.mcl{background:var(--bg3);border:0.5px solid var(--border2);color:var(--text2);padding:9px 20px;border-radius:var(--rs);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.msv{background:var(--brand);color:#111;border:none;padding:9px 22px;border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* ── CUSTOMER ── */
+#cp{display:none}
+.ch{padding:5rem 2rem 3.5rem;text-align:center;position:relative;overflow:hidden}
+.ch::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(245,197,24,.09),transparent 65%);pointer-events:none}
+.chbadge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,197,24,.1);color:var(--brand);font-size:13px;padding:5px 16px;border-radius:20px;margin-bottom:1.25rem;border:0.5px solid rgba(245,197,24,.25)}
+.ch h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,9vw,6.5rem);letter-spacing:2px;line-height:1;color:#fff;margin-bottom:.85rem}
+.ch h1 span{color:var(--brand)}
+.ch p{font-size:15px;color:var(--text2);max-width:400px;margin:0 auto 2rem;line-height:1.7}
+.cbtns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cbp{background:var(--brand);color:#111;border:none;padding:13px 30px;border-radius:var(--rs);font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+.cbo{background:transparent;color:var(--text);border:0.5px solid var(--border2);padding:13px 30px;border-radius:var(--rs);font-size:15px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.cstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:680px;margin:0 auto 3rem;padding:0 2rem}
+.cstat{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rs);padding:1rem;text-align:center}
+.csn{font-family:'Bebas Neue',sans-serif;font-size:1.85rem;color:var(--brand);letter-spacing:1px}
+.csl{font-size:12px;color:var(--text2);margin-top:2px}
+
+/* GALLERY */
+.gs{padding:0 2rem 3rem;max-width:980px;margin:0 auto}
+.gs h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:1px;color:#fff;margin-bottom:.25rem}
+.gs > p{font-size:13px;color:var(--text2);margin-bottom:1.1rem}
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.gi{border-radius:var(--rs);overflow:hidden;aspect-ratio:1;background:var(--bg2)}
+.gi img,.gi video{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.gi:hover img,.gi:hover video{transform:scale(1.05)}
+
+/* CUSTOMER MENU */
+.cms{padding:0 2rem 2rem;max-width:980px;margin:0 auto}
+.cms h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:1px;color:#fff;margin-bottom:.25rem}
+.cmsg{font-size:13px;color:var(--text2);margin-bottom:1.1rem}
+.cctabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem}
+.cctab{background:var(--bg2);border:0.5px solid var(--border);color:var(--text2);padding:7px 16px;border-radius:20px;font-size:13px;cursor:pointer;transition:all .2s}
+.cctab.active{background:var(--brand);color:#111;border-color:var(--brand)}
+.cmg{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:12px}
+.cmc{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .2s,transform .15s}
+.cmc:hover{border-color:var(--border2);transform:translateY(-2px)}
+.cmci{width:100%;height:110px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2.5rem}
+.cmcb{padding:.9rem}
+.cmcb h3{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.cmcb p{font-size:11px;color:var(--text2);margin-bottom:.75rem;line-height:1.5}
+.cmcf{display:flex;justify-content:space-between;align-items:center}
+.cpr{font-size:14px;font-weight:500;color:var(--brand)}
+.cab{background:var(--brand);color:#111;border:none;width:28px;height:28px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;line-height:1}
+.spicy{font-size:10px;color:#FF6B35;background:rgba(255,107,53,.12);border-radius:4px;padding:2px 5px;margin-left:5px;vertical-align:middle}
+
+/* HOW */
+.chow{background:var(--bg2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:3rem 2rem}
+.chowi{max-width:900px;margin:0 auto}
+.chowi h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:1px;color:#fff;margin-bottom:.25rem}
+.chowi > p{font-size:13px;color:var(--text2);margin-bottom:1.5rem}
+.csteps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+.cstep{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--r);padding:1.1rem;text-align:center}
+.cstep .si{font-size:1.6rem;margin-bottom:.5rem}
+.cstep h4{font-size:13px;font-weight:500;color:var(--text)}
+.cstep p{font-size:11px;color:var(--text2);margin-top:3px}
+
+/* CART BAR */
+#cbar{display:none;position:sticky;bottom:1rem;padding:0 2rem;max-width:980px;margin:0 auto;z-index:50}
+.cbari{background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--r);padding:.9rem 1.25rem;display:flex;justify-content:space-between;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.55)}
+.cbinfo{font-size:14px;color:var(--text2)}
+.cbinfo strong{color:var(--text)}
+.ckbtn{background:var(--brand);color:#111;border:none;padding:10px 22px;border-radius:var(--rs);font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* CHECKOUT MODAL */
+.chkbx{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--r);padding:2rem;width:100%;max-width:540px;max-height:90vh;overflow-y:auto}
+.chkbx h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:1px;color:#fff;margin-bottom:1.5rem}
+.csect{margin-bottom:1.5rem}
+.cstitle{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.75rem;font-weight:500}
+.clist{background:var(--bg3);border-radius:var(--rs);padding:.75rem;margin-bottom:.5rem}
+.cline{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;color:var(--text2)}
+.cline.total{border-top:0.5px solid var(--border);padding-top:8px;margin-top:4px;color:var(--text);font-weight:500}
+.nin{width:100%;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--rs);padding:10px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:.75rem}
+.nin:focus{border-color:var(--brand)}
+.nin:last-child{margin-bottom:0}
+
+/* PAYMENT METHODS */
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.pm{background:var(--bg3);border:1.5px solid var(--border);border-radius:var(--rs);padding:.9rem .75rem;cursor:pointer;text-align:center;transition:all .2s;position:relative}
+.pm:hover{border-color:var(--border2)}
+.pm.sel{border-color:var(--brand);background:rgba(245,197,24,.06)}
+.pm.sel::after{content:'✓';position:absolute;top:6px;right:8px;font-size:11px;color:var(--brand);font-weight:700}
+.pm .pmi{font-size:1.6rem;margin-bottom:.35rem}
+.pm .pmn{font-size:13px;font-weight:500;color:var(--text)}
+.pm .pms{font-size:11px;color:var(--text2);margin-top:2px}
+.pm-detail{display:none;margin-top:.75rem;padding:.9rem;border-radius:var(--rs)}
+.pm-detail.upi-d{background:rgba(59,130,246,.05);border:0.5px solid rgba(59,130,246,.2)}
+.pm-detail.cod-d{background:rgba(34,197,94,.05);border:0.5px solid rgba(34,197,94,.2)}
+.pm-detail.cash-d{background:rgba(245,197,24,.05);border:0.5px solid rgba(245,197,24,.2)}
+.pm-detail.card-d{background:rgba(168,85,247,.05);border:0.5px solid rgba(168,85,247,.2)}
+.pm-detail.wallet-d{background:rgba(236,72,153,.05);border:0.5px solid rgba(236,72,153,.2)}
+.pm-detail p{font-size:13px;margin-bottom:.5rem}
+.pm-detail p.note{font-size:12px;color:var(--text2);margin-top:.5rem;margin-bottom:0}
+.upi-box{background:var(--bg4);border:0.5px solid var(--border2);border-radius:var(--rxs);padding:.6rem 1rem;font-size:14px;font-weight:500;color:var(--brand);display:flex;justify-content:space-between;align-items:center;cursor:pointer;margin-bottom:.6rem}
+.upi-box span{font-size:11px;color:var(--text2)}
+.pol{width:100%;background:var(--brand);color:#111;border:none;padding:13px;border-radius:var(--rs);font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.5rem}
+.pol:disabled{opacity:.5;cursor:not-allowed}
+.cxbtn{width:100%;background:var(--bg3);border:0.5px solid var(--border2);color:var(--text2);padding:10px;border-radius:var(--rs);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:.6rem}
+
+/* SUCCESS */
+.succ{text-align:center;padding:2rem 1rem}
+.succ .sico{font-size:3.5rem;margin-bottom:1rem}
+.succ h3{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:1px;color:var(--green);margin-bottom:.5rem}
+.succ > p{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:1.5rem}
+.soid{background:var(--bg3);border:0.5px solid var(--border);border-radius:var(--rs);padding:.75rem 1.25rem;font-size:13px;color:var(--text2);margin-bottom:1.5rem}
+.soid strong{color:var(--brand)}
+.smethod{display:inline-block;font-size:12px;padding:5px 14px;border-radius:20px;margin-bottom:1.5rem;font-weight:500}
+
+/* MAP / FOOTER / WA */
+.mapsec{padding:2rem;max-width:980px;margin:0 auto}
+.mapsec h2{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:1px;color:#fff;margin-bottom:.25rem}
+.mapsec > p{font-size:13px;color:var(--text2);margin-bottom:1rem}
+.mapfr{width:100%;height:280px;border-radius:var(--r);overflow:hidden;border:0.5px solid var(--border);background:var(--bg2)}
+.mapfr iframe{width:100%;height:100%;border:none}
+.mphold{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.75rem;color:var(--text2)}
+.mphold span{font-size:2.5rem}
+.mphold p{font-size:13px;text-align:center}
+footer{padding:2rem;text-align:center;font-size:13px;color:var(--text3);border-top:0.5px solid var(--border)}
+footer span{color:var(--text2)}
+.wa{position:fixed;bottom:5rem;right:1.5rem;background:#25D366;color:#fff;width:54px;height:54px;border-radius:50%;display:none;align-items:center;justify-content:center;font-size:1.6rem;box-shadow:0 4px 16px rgba(37,211,102,.35);cursor:pointer;z-index:200;text-decoration:none;transition:transform .2s}
+.wa:hover{transform:scale(1.1)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--brand);color:#111;padding:10px 22px;border-radius:var(--rs);font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:400;white-space:nowrap}
+.toast.show{opacity:1}
+@media(max-width:640px){
+  nav{padding:1rem 1.25rem}
+  .ch{padding:3rem 1.25rem 2.5rem}
+  .cstats,.gs,.cms,.mapsec{padding-left:1.25rem;padding-right:1.25rem}
+  #op{padding:1.25rem}
+  .pm-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="ll">🍗 Crispy & Wings<small>Choose how you want to enter</small></div>
+  <div class="role-cards">
+    <div class="rc" onclick="enterOwner()">
+      <div class="rci">🔐</div><h3>Owner</h3>
+      <p>Manage menu, photos, payments & settings</p>
+    </div>
+    <div class="rc" onclick="enterCustomer()">
+      <div class="rci">🛒</div><h3>Customer</h3>
+      <p>Browse menu, view gallery & place your order</p>
+    </div>
+  </div>
+</div>
+
+<!-- OWNER LOGIN -->
+<div id="owner-login">
+  <div class="lbox">
+    <h2>Owner Login</h2>
+    <p>Enter your credentials to access the dashboard</p>
+    <div class="fi"><label>Username</label><input id="lu" type="text" placeholder="owner"/></div>
+    <div class="fi"><label>Password</label><input id="lp" type="password" placeholder="••••••"/></div>
+    <div class="lerr" id="lerr">Incorrect. Try: owner / 1234</div>
+    <button class="lbtn" onclick="doLogin()">Login →</button>
+    <p class="bk" onclick="backToLanding()">← Back to home</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav>
+    <div class="nlogo" id="nlogo">🍗 Crispy & Wings</div>
+    <div class="nright">
+      <span class="mbadge o" id="mbadge">Owner Mode</span>
+      <span class="nsw" onclick="switchMode()">Switch View</span>
+    </div>
+  </nav>
+
+  <!-- ══ OWNER PANEL ══ -->
+  <div id="op">
+    <div class="dh"><h1>Dashboard</h1><p>Customize everything your customers see</p></div>
+    <div class="dtabs">
+      <div class="dtab active" onclick="dtab('brand',this)">🎨 Branding</div>
+      <div class="dtab" onclick="dtab('media',this)">📸 Photos & Videos</div>
+      <div class="dtab" onclick="dtab('menumgr',this)">🍽 Menu</div>
+      <div class="dtab" onclick="dtab('payhist',this)">💰 Payment History</div>
+      <div class="dtab" onclick="dtab('sett',this)">⚙️ Settings</div>
+    </div>
+
+    <!-- BRANDING -->
+    <div class="dsec active" id="tab-brand">
+      <div class="card"><div class="ct">Restaurant Info</div>
+        <div class="fg">
+          <div class="fg1"><label>Restaurant Name</label><input id="bn" value="Crispy & Wings"/></div>
+          <div class="fg1"><label>Tagline</label><input id="bt" value="Legendary fried chicken, loaded wings, handcrafted mojitos & thick milkshakes"/></div>
+          <div class="fg1"><label>Delivery Time</label><input id="bd" value="25 min delivery"/></div>
+          <div class="fg1"><label>Location / City</label><input id="bc" value="Hyderabad"/></div>
+          <div class="fg1"><label>Phone / WhatsApp</label><input id="bph" value="+91 9876543210"/></div>
+          <div class="fg1"><label>UPI ID (for payments)</label><input id="bupi" value="crispywings@upi" placeholder="yourname@upi"/></div>
+          <div class="fg1"><label>Google Maps Embed URL</label><input id="bmap" placeholder="Paste Google Maps embed src URL"/></div>
+          <div class="fg1"><label>Rating</label><input id="brat" value="4.8★"/></div>
+          <div class="fg1"><label>Orders / Guests</label><input id="bord" value="5K+"/></div>
+          <div class="fg1"><label>Stat Label (e.g. Avg delivery)</label><input id="bsl" value="Avg delivery"/></div>
+          <div class="fg1"><label>Stat Value (e.g. 25m)</label><input id="bsv" value="25m"/></div>
+        </div>
+        <div class="fg1"><label>About / Description</label><textarea id="bab">Welcome to Crispy & Wings — your go-to café for crispy fried chicken, flavour-loaded wings, chilled mojitos and thick milkshakes.</textarea></div>
+      </div>
+      <div class="card"><div class="ct">Brand Color</div>
+        <div class="cr"><input type="color" id="bclr" value="#F5C518" oninput="previewColor(this.value)"/>
+        <span style="font-size:13px;color:var(--text2)">Primary accent used across the site</span></div>
+      </div>
+      <button class="sbtn" onclick="saveBranding()">Save & Apply</button>
+    </div>
+
+    <!-- MEDIA -->
+    <div class="dsec" id="tab-media">
+      <div class="card"><div class="ct">Upload Photos & Videos</div>
+        <div class="uz" onclick="document.getElementById('mup').click()">
+          <div class="uzi">📸</div><h3>Click to upload</h3>
+          <p>JPG, PNG, WebP, MP4, MOV · Multiple files OK</p>
+          <input type="file" id="mup" accept="image/*,video/*" multiple onchange="handleUpload(event)"/>
+        </div>
+        <div class="mgrid" id="mgrid"></div>
+      </div>
+    </div>
+
+    <!-- MENU MGR -->
+    <div class="dsec" id="tab-menumgr">
+      <div class="card"><div class="ct">Menu Items</div>
+        <div id="mlist"></div>
+        <button class="addbtn" onclick="openAdd()">+ Add New Item</button>
+      </div>
+    </div>
+
+    <!-- PAYMENT HISTORY -->
+    <div class="dsec" id="tab-payhist">
+      <div class="phs" id="phsum"></div>
+      <div class="card"><div class="ct">Order & Payment History</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:1rem">
+          <div class="phfr">
+            <div class="phf active" onclick="fph('all',this)">All</div>
+            <div class="phf" onclick="fph('upi',this)">UPI</div>
+            <div class="phf" onclick="fph('card',this)">Card</div>
+            <div class="phf" onclick="fph('cash',this)">Cash</div>
+            <div class="phf" onclick="fph('cod',this)">COD</div>
+            <div class="phf" onclick="fph('wallet',this)">Wallet</div>
+          </div>
+          <button class="exbtn" onclick="exportCSV()">⬇ Export CSV</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="pht">
+            <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Amount</th><th>Method</th><th>Status</th><th>Time</th></tr></thead>
+            <tbody id="phtbody"></tbody>
+          </table>
+        </div>
+        <div class="phempty" id="phempty" style="display:none">No orders yet. Orders will appear here when customers place them.</div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="dsec" id="tab-sett">
+      <div class="card"><div class="ct">Customer Features</div>
+        <div class="sr"><div><div class="srl">WhatsApp Button</div><div class="srs">Floating order button</div></div><label class="tgl"><input type="checkbox" id="twa" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">Gallery Section</div><div class="srs">Show food photos to customers</div></div><label class="tgl"><input type="checkbox" id="tgal" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">Map Section</div><div class="srs">Show location map</div></div><label class="tgl"><input type="checkbox" id="tmap" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">Online Ordering</div><div class="srs">Allow Add to Cart & Checkout</div></div><label class="tgl"><input type="checkbox" id="tord" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+      </div>
+      <div class="card"><div class="ct">Payment Methods Available to Customers</div>
+        <div class="sr"><div><div class="srl">🔵 UPI (PhonePe, GPay, Paytm)</div><div class="srs">Instant digital payment</div></div><label class="tgl"><input type="checkbox" id="tupi" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">💳 Debit / Credit Card</div><div class="srs">Visa, Mastercard, RuPay</div></div><label class="tgl"><input type="checkbox" id="tcard" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">💵 Cash (Pay at counter)</div><div class="srs">For dine-in or pickup</div></div><label class="tgl"><input type="checkbox" id="tcash" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">🚴 Cash on Delivery (COD)</div><div class="srs">Pay when order arrives</div></div><label class="tgl"><input type="checkbox" id="tcod" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+        <div class="sr"><div><div class="srl">👛 Mobile Wallet</div><div class="srs">Paytm wallet, Amazon Pay etc.</div></div><label class="tgl"><input type="checkbox" id="twallet" checked onchange="saveSett()"/><span class="tgls"></span></label></div>
+      </div>
+      <div class="card"><div class="ct">Change Owner Password</div>
+        <div class="fg">
+          <div class="fg1"><label>New Password</label><input id="np" type="password" placeholder="New password"/></div>
+          <div class="fg1"><label>Confirm Password</label><input id="cp2" type="password" placeholder="Confirm password"/></div>
+        </div>
+        <button class="sbtn" onclick="changePw()">Update Password</button>
+      </div>
+      <div class="card"><div class="ct">Logout</div>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:1rem">Return to landing page and exit owner mode.</p>
+        <button class="sbtn" style="background:var(--bg3);color:var(--text);border:0.5px solid var(--border2)" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CUSTOMER PANEL ══ -->
+  <div id="cp">
+    <section class="ch">
+      <div class="chbadge">🔥 <span id="cbadge">Now open · 25 min delivery</span></div>
+      <h1 id="ctitle">Crispy <span>&</span> Wings</h1>
+      <p id="ctagline">Legendary fried chicken, loaded wings, handcrafted mojitos & thick milkshakes</p>
+      <div class="cbtns">
+        <button class="cbp" onclick="document.getElementById('cmenu').scrollIntoView({behavior:'smooth'})">Order Now</button>
+        <button class="cbo" onclick="document.getElementById('chow').scrollIntoView({behavior:'smooth'})">How it works</button>
+      </div>
+    </section>
+    <div class="cstats">
+      <div class="cstat"><div class="csn" id="crat">4.8★</div><div class="csl">Rating</div></div>
+      <div class="cstat"><div class="csn" id="cord">5K+</div><div class="csl">Happy guests</div></div>
+      <div class="cstat"><div class="csn" id="csv">25m</div><div class="csl" id="csl">Avg delivery</div></div>
+    </div>
+    <div class="gs" id="cgalsec">
+      <h2>Gallery</h2><p>Fresh from our kitchen</p>
+      <div class="gg" id="cgal"><div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text3);font-size:13px">No photos yet — owner can upload in the dashboard</div></div>
+    </div>
+    <div class="cms" id="cmenu">
+      <h2>Menu</h2><div class="cmsg">Fresh, made to order</div>
+      <div class="cctabs" id="cctabs"></div>
+      <div class="cmg" id="cmg"></div>
+    </div>
+    <div id="cbar">
+      <div class="cbari">
+        <div class="cbinfo"><strong id="ccount">0 items</strong> &nbsp;·&nbsp; Total: <strong id="ctotal">₹0</strong></div>
+        <button class="ckbtn" onclick="openCheckout()">Checkout →</button>
+      </div>
+    </div>
+    <div class="chow" id="chow">
+      <div class="chowi">
+        <h2>How it works</h2><p>From craving to doorstep in minutes</p>
+        <div class="csteps">
+          <div class="cstep"><div class="si">🛒</div><h4>Pick items</h4><p>Browse our menu</p></div>
+          <div class="cstep"><div class="si">👤</div><h4>Your details</h4><p>Name & address</p></div>
+          <div class="cstep"><div class="si">💳</div><h4>Pay</h4><p>UPI, card, cash, COD</p></div>
+          <div class="cstep"><div class="si">🚴</div><h4>Enjoy!</h4><p>Hot & fresh fast</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="mapsec" id="cmapsec">
+      <h2>Find Us</h2><p id="ccity">Hyderabad</p>
+      <div class="mapfr" id="cmapfr"><div class="mphold"><span>📍</span><p>Add your Google Maps embed URL in Owner Dashboard → Branding</p></div></div>
+    </div>
+    <footer>© 2026 <span id="cfoot">Crispy & Wings</span> · <span id="cfootcity">Hyderabad</span> · All rights reserved</footer>
+  </div>
+</div>
+
+<!-- WA FLOAT -->
+<a class="wa" id="wabtn" href="#" target="_blank">💬</a>
+
+<!-- ITEM MODAL -->
+<div class="mo" id="imodal">
+  <div class="mb">
+    <h3 id="imtitle">Add New Item</h3>
+    <div class="fg1"><label>Emoji</label><input id="imoji" value="🍗" maxlength="4"/></div>
+    <div class="fg">
+      <div class="fg1"><label>Name</label><input id="iname" placeholder="e.g. Chicken Burger"/></div>
+      <div class="fg1"><label>Price (₹)</label><input id="iprice" type="number" placeholder="249"/></div>
+    </div>
+    <div class="fg1"><label>Description</label><textarea id="idesc" placeholder="Short description..."></textarea></div>
+    <div class="fg1"><label>Category</label>
+      <select id="icat"><option value="wings">Wings</option><option value="chicken">Chicken</option><option value="drinks">Drinks / Mojitos</option><option value="shakes">Shakes</option><option value="other">Other</option></select>
+    </div>
+    <div class="fg1" style="display:flex;align-items:center;gap:10px">
+      <label style="font-size:12px;color:var(--text2)">Spicy?</label>
+      <label class="tgl"><input type="checkbox" id="ispicy"/><span class="tgls"></span></label>
+    </div>
+    <div class="mf">
+      <button class="mcl" onclick="closeM('imodal')">Cancel</button>
+      <button class="msv" onclick="saveItem()">Save Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="mo" id="chkmodal">
+  <div class="chkbx">
+    <div id="chkform">
+      <h3>Checkout</h3>
+      <!-- order summary -->
+      <div class="csect">
+        <div class="cstitle">Order Summary</div>
+        <div class="clist" id="co-list"></div>
+      </div>
+      <!-- details -->
+      <div class="csect">
+        <div class="cstitle">Your Details</div>
+        <input class="nin" id="coname" type="text" placeholder="Your name *"/>
+        <input class="nin" id="cophone" type="tel" placeholder="Phone number *"/>
+        <input class="nin" id="coaddr" type="text" placeholder="Delivery address *"/>
+      </div>
+      <!-- payment methods -->
+      <div class="csect">
+        <div class="cstitle">Select Payment Method</div>
+        <div class="pm-grid" id="pmgrid"></div>
+
+        <!-- UPI detail -->
+        <div class="pm-detail upi-d" id="dUPI">
+          <p style="color:#60A5FA;font-weight:500;margin-bottom:.5rem">📱 Pay via UPI</p>
+          <p style="color:var(--text2);font-size:13px;margin-bottom:.5rem">Scan or pay to this UPI ID:</p>
+          <div class="upi-box" onclick="copyUPI()">
+            <span id="upishow">crispywings@upi</span><span>Tap to copy</span>
+          </div>
+          <input class="nin" id="upiref" type="text" placeholder="Enter UPI transaction/reference ID *" style="margin-bottom:0"/>
+          <p class="note">Works with PhonePe, GPay, Paytm, BHIM & any UPI app.</p>
+        </div>
+
+        <!-- Card detail -->
+        <div class="pm-detail card-d" id="dCard">
+          <p style="color:#C084FC;font-weight:500;margin-bottom:.5rem">💳 Pay by Card</p>
+          <div class="fg">
+            <div class="fg1"><label style="font-size:12px;color:var(--text2)">Card Number</label><input class="nin" id="cardno" type="text" placeholder="1234 5678 9012 3456" maxlength="19" style="margin-bottom:0"/></div>
+            <div class="fg1"><label style="font-size:12px;color:var(--text2)">Cardholder Name</label><input class="nin" id="cardname" type="text" placeholder="Name on card" style="margin-bottom:0"/></div>
+            <div class="fg1"><label style="font-size:12px;color:var(--text2)">Expiry</label><input class="nin" id="cardexp" type="text" placeholder="MM / YY" maxlength="7" style="margin-bottom:0"/></div>
+            <div class="fg1"><label style="font-size:12px;color:var(--text2)">CVV</label><input class="nin" id="cardcvv" type="password" placeholder="•••" maxlength="4" style="margin-bottom:0"/></div>
+          </div>
+          <p class="note">Visa, Mastercard, RuPay & Amex accepted. Card is charged on delivery confirmation.</p>
+        </div>
+
+        <!-- Cash detail -->
+        <div class="pm-detail cash-d" id="dCash">
+          <p style="color:var(--brand);font-weight:500;margin-bottom:.4rem">💵 Pay Cash at Counter</p>
+          <p class="note" style="margin-top:0">Bring exact change or pay at the pickup counter. No advance required.</p>
+        </div>
+
+        <!-- COD detail -->
+        <div class="pm-detail cod-d" id="dCOD">
+          <p style="color:#4ADE80;font-weight:500;margin-bottom:.4rem">🚴 Cash on Delivery</p>
+          <p class="note" style="margin-top:0">Pay cash when your order arrives at your door. Our delivery person carries change.</p>
+        </div>
+
+        <!-- Wallet detail -->
+        <div class="pm-detail wallet-d" id="dWallet">
+          <p style="color:#F472B6;font-weight:500;margin-bottom:.5rem">👛 Mobile Wallet</p>
+          <div class="pm-grid" style="margin-bottom:.5rem">
+            <div style="background:var(--bg4);border:0.5px solid var(--border2);border-radius:var(--rxs);padding:.6rem;text-align:center;font-size:13px;color:var(--text2)">💙 Paytm Wallet</div>
+            <div style="background:var(--bg4);border:0.5px solid var(--border2);border-radius:var(--rxs);padding:.6rem;text-align:center;font-size:13px;color:var(--text2)">🟠 Amazon Pay</div>
+          </div>
+          <input class="nin" id="walletref" type="text" placeholder="Wallet transaction ID *" style="margin-bottom:0"/>
+          <p class="note">Pay from your Paytm or Amazon Pay wallet balance and share the transaction ID.</p>
+        </div>
+      </div>
+
+      <button class="pol" onclick="placeOrder()">Place Order</button>
+      <button class="cxbtn" onclick="closeM('chkmodal')">Cancel</button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div id="chksucc" style="display:none">
+      <div class="succ">
+        <div class="sico">🎉</div>
+        <h3>Order Placed!</h3>
+        <p>Your order has been received. We're getting it ready right now!</p>
+        <div class="soid">Order ID: <strong id="soid">#0001</strong></div>
+        <div class="smethod" id="smeth" style="background:rgba(34,197,94,.12);color:#4ADE80"></div>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:1.5rem">You'll receive a confirmation on WhatsApp shortly.</p>
+        <button class="pol" onclick="closeM('chkmodal')">Back to Menu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let ownerPass='1234', currentMode='', editIdx=null;
+let media=[], cartItems=[], selPay='', orders=[], phFil='all';
+let store={
+  name:'Crispy & Wings',tagline:'Legendary fried chicken, loaded wings, handcrafted mojitos & thick milkshakes',
+  delivery:'25 min delivery',city:'Hyderabad',phone:'+91 9876543210',upiId:'crispywings@upi',
+  mapUrl:'',about:'',color:'#F5C518',rating:'4.8★',orders:'5K+',stat3l:'Avg delivery',stat3v:'25m',
+  sett:{wa:true,gal:true,map:true,ord:true,upi:true,card:true,cash:true,cod:true,wallet:true},
+  menu:[
+    {cat:'wings',emoji:'🍗',name:'Classic Buffalo Wings',desc:'Crispy wings tossed in tangy buffalo sauce',price:299,spicy:true},
+    {cat:'wings',emoji:'🔥',name:'Smoky BBQ Wings',desc:'Slow-smoked wings glazed with rich BBQ sauce',price:319,spicy:false},
+    {cat:'wings',emoji:'🌶️',name:'Peri Peri Wings',desc:'Fire-roasted wings with peri peri spice',price:329,spicy:true},
+    {cat:'wings',emoji:'🍯',name:'Honey Garlic Wings',desc:'Sweet & sticky wings with roasted garlic butter',price:309,spicy:false},
+    {cat:'wings',emoji:'🧀',name:'Cheesy Wings',desc:'Wings loaded with melted cheddar & jalapeños',price:339,spicy:true},
+    {cat:'chicken',emoji:'🍗',name:'Crispy Fried Chicken',desc:'Signature double-fried golden chicken',price:249,spicy:false},
+    {cat:'chicken',emoji:'🌮',name:'Chicken Wrap',desc:'Grilled chicken with slaw & chipotle mayo',price:219,spicy:false},
+    {cat:'chicken',emoji:'🍔',name:'Chicken Burger',desc:'Juicy chicken patty with lettuce & pickles',price:229,spicy:false},
+    {cat:'chicken',emoji:'🍳',name:'Chicken Leg Fry',desc:'Marinated legs deep fried to perfection',price:269,spicy:true},
+    {cat:'chicken',emoji:'🌯',name:'Spicy Chicken Strips',desc:'Crispy tenders with sriracha dip',price:239,spicy:true},
+    {cat:'drinks',emoji:'🍋',name:'Classic Mojito',desc:'Fresh lime, mint & soda — perfectly chilled',price:149,spicy:false},
+    {cat:'drinks',emoji:'🫐',name:'Blueberry Mojito',desc:'Muddled blueberries with lime & mint soda',price:169,spicy:false},
+    {cat:'drinks',emoji:'🍓',name:'Strawberry Mojito',desc:'Strawberry crush with fresh mint',price:169,spicy:false},
+    {cat:'drinks',emoji:'🥭',name:'Mango Lemonade',desc:'Alphonso mango with zesty lemon & ginger',price:139,spicy:false},
+    {cat:'shakes',emoji:'🍫',name:'Chocolate Milkshake',desc:'Rich Belgian chocolate blended cold',price:179,spicy:false},
+    {cat:'shakes',emoji:'🍓',name:'Strawberry Shake',desc:'Fresh strawberries with vanilla ice cream',price:169,spicy:false},
+    {cat:'shakes',emoji:'🥜',name:'Peanut Butter Shake',desc:'Thick creamy peanut butter shake',price:189,spicy:false},
+    {cat:'shakes',emoji:'🍌',name:'Banana Caramel Shake',desc:'Caramelised banana with sea salt',price:179,spicy:false},
+  ]
+};
+
+// seed demo orders
+(function(){
+  const ms=['upi','card','cash','cod','wallet'];
+  const ns=['Ravi Kumar','Priya S','Arun M','Sneha T','Mohammed A','Lakshmi R','Vijay P','Asha N'];
+  const st=['paid','paid','paid','pending','paid','paid','failed','paid'];
+  for(let i=0;i<8;i++){
+    const its=store.menu.slice(i%4,i%4+2);
+    const tot=its.reduce((s,x)=>s+x.price,0);
+    orders.push({id:'#'+String(1000+i),customer:ns[i],phone:'+91 98765 '+String(43210+i),
+      items:its.map(x=>x.name).join(', '),total:tot,method:ms[i%ms.length],
+      status:st[i],time:new Date(Date.now()-i*3600000*2).toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})});
+  }
+})();
+
+// ── NAVIGATION ──
+function enterOwner(){document.getElementById('landing').style.display='none';document.getElementById('owner-login').style.display='flex';}
+function enterCustomer(){document.getElementById('landing').style.display='none';currentMode='customer';showApp('customer');}
+function backToLanding(){document.getElementById('owner-login').style.display='none';document.getElementById('landing').style.display='flex';}
+function doLogin(){
+  if(document.getElementById('lu').value.trim()==='owner'&&document.getElementById('lp').value===ownerPass){
+    document.getElementById('owner-login').style.display='none';currentMode='owner';showApp('owner');
+  } else document.getElementById('lerr').style.display='block';
+}
+function showApp(mode){
+  document.getElementById('app').style.display='block';applyBrand();
+  const isO=mode==='owner';
+  document.getElementById('op').style.display=isO?'block':'none';
+  document.getElementById('cp').style.display=isO?'none':'block';
+  document.getElementById('mbadge').textContent=isO?'Owner Mode':'Customer View';
+  document.getElementById('mbadge').className='mbadge '+(isO?'o':'c');
+  document.getElementById('wabtn').style.display='none';
+  if(isO){renderMenuMgr();renderPayHist();}
+  else renderCustomer();
+}
+function switchMode(){currentMode=currentMode==='owner'?'customer':'owner';showApp(currentMode);}
+function logout(){document.getElementById('app').style.display='none';document.getElementById('landing').style.display='flex';currentMode='';}
+
+// ── DASH TABS ──
+function dtab(id,el){
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.dsec').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');document.getElementById('tab-'+id).classList.add('active');
+  if(id==='payhist')renderPayHist();
+}
+
+// ── BRANDING ──
+function saveBranding(){
+  store.name=document.getElementById('bn').value||store.name;
+  store.tagline=document.getElementById('bt').value||store.tagline;
+  store.delivery=document.getElementById('bd').value||store.delivery;
+  store.city=document.getElementById('bc').value||store.city;
+  store.phone=document.getElementById('bph').value||store.phone;
+  store.upiId=document.getElementById('bupi').value||store.upiId;
+  store.mapUrl=document.getElementById('bmap').value||'';
+  store.about=document.getElementById('bab').value||store.about;
+  store.color=document.getElementById('bclr').value;
+  store.rating=document.getElementById('brat').value||store.rating;
+  store.orders=document.getElementById('bord').value||store.orders;
+  store.stat3l=document.getElementById('bsl').value||store.stat3l;
+  store.stat3v=document.getElementById('bsv').value||store.stat3v;
+  applyBrand();toast('✓ Branding saved!');
+}
+function applyBrand(){
+  document.documentElement.style.setProperty('--brand',store.color);
+  document.getElementById('nlogo').textContent='🍗 '+store.name;
+  if(store.phone)document.getElementById('wabtn').href='https://wa.me/'+store.phone.replace(/[^0-9]/g,'')+'?text=Hi!+I+want+to+order+from+'+encodeURIComponent(store.name);
+}
+function previewColor(v){store.color=v;document.documentElement.style.setProperty('--brand',v);}
+
+// ── MEDIA ──
+function handleUpload(e){
+  Array.from(e.target.files).forEach(f=>media.push({url:URL.createObjectURL(f),name:f.name,isVid:f.type.startsWith('video')}));
+  renderMediaGrid();renderGallery();toast('✓ '+e.target.files.length+' file(s) uploaded');
+}
+function renderMediaGrid(){
+  document.getElementById('mgrid').innerHTML=media.map((m,i)=>`
+    <div class="mth">${m.isVid?`<video src="${m.url}" muted loop autoplay></video>`:`<img src="${m.url}"/>`}
+    <div class="mlabel">${m.name}</div><button class="xbtn" onclick="delMedia(${i})">×</button></div>`).join('');
+}
+function delMedia(i){media.splice(i,1);renderMediaGrid();renderGallery();toast('Removed');}
+
+// ── MENU MGR ──
+function renderMenuMgr(){
+  document.getElementById('mlist').innerHTML=store.menu.map((it,i)=>`
+    <div class="mir"><div class="mt"><div class="me">${it.emoji}</div><div class="mi">
+      <h4>${it.name}${it.spicy?' 🌶':''}<span class="pb">₹${it.price}</span></h4>
+      <p>${it.desc} · <em style="color:var(--text3)">${it.cat}</em></p>
+    </div></div><div class="ma">
+      <button class="ebtn" onclick="openEdit(${i})">Edit</button>
+      <button class="dbtn2" onclick="delItem(${i})">Delete</button>
+    </div></div>`).join('');
+}
+function openAdd(){editIdx=null;document.getElementById('imtitle').textContent='Add New Item';
+  ['imoji','iname','iprice','idesc'].forEach(id=>document.getElementById(id).value=id==='imoji'?'🍗':'');
+  document.getElementById('icat').value='wings';document.getElementById('ispicy').checked=false;
+  document.getElementById('imodal').classList.add('open');}
+function openEdit(i){editIdx=i;const it=store.menu[i];document.getElementById('imtitle').textContent='Edit Item';
+  document.getElementById('imoji').value=it.emoji;document.getElementById('iname').value=it.name;
+  document.getElementById('iprice').value=it.price;document.getElementById('idesc').value=it.desc;
+  document.getElementById('icat').value=it.cat;document.getElementById('ispicy').checked=it.spicy;
+  document.getElementById('imodal').classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+function saveItem(){
+  const it={emoji:document.getElementById('imoji').value||'🍗',name:document.getElementById('iname').value||'Item',
+    price:parseInt(document.getElementById('iprice').value)||0,desc:document.getElementById('idesc').value||'',
+    cat:document.getElementById('icat').value,spicy:document.getElementById('ispicy').checked};
+  if(editIdx!==null)store.menu[editIdx]=it;else store.menu.push(it);
+  closeM('imodal');renderMenuMgr();toast('✓ Item saved');
+}
+function delItem(i){if(confirm('Delete "'+store.menu[i].name+'"?')){store.menu.splice(i,1);renderMenuMgr();toast('Deleted');}}
+
+// ── PAYMENT HISTORY ──
+function renderPayHist(){
+  const fil=phFil==='all'?orders:orders.filter(o=>o.method===phFil);
+  const rev=orders.filter(o=>o.status==='paid').reduce((s,o)=>s+o.total,0);
+  const byM=m=>orders.filter(o=>o.method===m&&o.status==='paid').reduce((s,o)=>s+o.total,0);
+  document.getElementById('phsum').innerHTML=`
+    <div class="phst"><div class="phsn">₹${rev.toLocaleString('en-IN')}</div><div class="phsl">Total Revenue</div></div>
+    <div class="phst"><div class="phsn">${orders.length}</div><div class="phsl">Total Orders</div></div>
+    <div class="phst"><div class="phsn">${orders.filter(o=>o.status==='pending').length}</div><div class="phsl">Pending</div></div>
+    <div class="phst"><div class="phsn">₹${byM('upi').toLocaleString('en-IN')}</div><div class="phsl">UPI Revenue</div></div>
+    <div class="phst"><div class="phsn">₹${(byM('cash')+byM('cod')).toLocaleString('en-IN')}</div><div class="phsl">Cash / COD</div></div>
+    <div class="phst"><div class="phsn">₹${(byM('card')+byM('wallet')).toLocaleString('en-IN')}</div><div class="phsl">Card / Wallet</div></div>`;
+  const tbody=document.getElementById('phtbody');
+  const empty=document.getElementById('phempty');
+  if(!fil.length){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=fil.map(o=>`<tr>
+    <td style="color:var(--brand);font-weight:500">${o.id}</td>
+    <td class="phn">${o.customer}</td>
+    <td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${o.items}</td>
+    <td style="color:var(--text);font-weight:500">₹${o.total}</td>
+    <td><span class="phb ${o.method}">${o.method.toUpperCase()}</span></td>
+    <td><span class="phs2 ${o.status}">${o.status}</span></td>
+    <td>${o.time}</td></tr>`).join('');
+}
+function fph(f,el){phFil=f;document.querySelectorAll('.phf').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderPayHist();}
+function exportCSV(){
+  const rows=[['Order ID','Customer','Phone','Items','Amount','Method','Status','Time'],
+    ...orders.map(o=>[o.id,o.customer,o.phone||'','"'+o.items+'"','₹'+o.total,o.method,o.status,o.time])];
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n'));
+  a.download='crispy-wings-orders.csv';a.click();
+}
+
+// ── SETTINGS ──
+function saveSett(){
+  store.sett.wa=document.getElementById('twa').checked;
+  store.sett.gal=document.getElementById('tgal').checked;
+  store.sett.map=document.getElementById('tmap').checked;
+  store.sett.ord=document.getElementById('tord').checked;
+  store.sett.upi=document.getElementById('tupi').checked;
+  store.sett.card=document.getElementById('tcard').checked;
+  store.sett.cash=document.getElementById('tcash').checked;
+  store.sett.cod=document.getElementById('tcod').checked;
+  store.sett.wallet=document.getElementById('twallet').checked;
+  toast('✓ Settings saved');
+}
+function changePw(){
+  const np=document.getElementById('np').value,cp=document.getElementById('cp2').value;
+  if(!np){toast('Enter a new password');return;}
+  if(np!==cp){toast('Passwords do not match');return;}
+  ownerPass=np;document.getElementById('np').value='';document.getElementById('cp2').value='';
+  toast('✓ Password updated');
+}
+
+// ── CUSTOMER ──
+let activeCat='all';
+function renderCustomer(){
+  document.getElementById('cbadge').textContent='Now open · '+store.delivery;
+  document.getElementById('ctitle').innerHTML=store.name;
+  document.getElementById('ctagline').textContent=store.tagline;
+  document.getElementById('crat').textContent=store.rating;
+  document.getElementById('cord').textContent=store.orders;
+  document.getElementById('csv').textContent=store.stat3v;
+  document.getElementById('csl').textContent=store.stat3l;
+  document.getElementById('cfoot').textContent=store.name;
+  document.getElementById('cfootcity').textContent=store.city;
+  document.getElementById('ccity').textContent=store.city;
+  const mf=document.getElementById('cmapfr');
+  mf.innerHTML=store.mapUrl?`<iframe src="${store.mapUrl}" allowfullscreen loading="lazy"></iframe>`:'<div class="mphold"><span>📍</span><p>Add your Google Maps embed URL in Owner Dashboard → Branding</p></div>';
+  document.getElementById('cgalsec').style.display=store.sett.gal?'block':'none';
+  document.getElementById('cmapsec').style.display=store.sett.map?'block':'none';
+  document.getElementById('cbar').style.display='none';
+  document.getElementById('wabtn').style.display=store.sett.wa?'flex':'none';
+  cartItems=[];renderGallery();activeCat='all';renderCatTabs();renderMenuGrid();
+}
+function renderGallery(){
+  const g=document.getElementById('cgal');
+  if(!media.length){g.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text3);font-size:13px">No photos yet — owner can upload in the dashboard</div>';return;}
+  g.innerHTML=media.map(m=>`<div class="gi">${m.isVid?`<video src="${m.url}" muted loop autoplay></video>`:`<img src="${m.url}"/>`}</div>`).join('');
+}
+function renderCatTabs(){
+  const cats=['all',...new Set(store.menu.map(i=>i.cat))];
+  const L={all:'All',wings:'🍗 Wings',chicken:'🍳 Chicken',drinks:'🥤 Drinks',shakes:'🥛 Shakes',other:'🍽 Other'};
+  document.getElementById('cctabs').innerHTML=cats.map(c=>`<div class="cctab${c===activeCat?' active':''}" onclick="filtCat('${c}',this)">${L[c]||c}</div>`).join('');
+}
+function filtCat(cat,el){activeCat=cat;document.querySelectorAll('.cctab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderMenuGrid();}
+function renderMenuGrid(){
+  const fil=activeCat==='all'?store.menu:store.menu.filter(i=>i.cat===activeCat);
+  const canOrd=store.sett.ord;
+  document.getElementById('cmg').innerHTML=fil.length?fil.map(it=>`
+    <div class="cmc"><div class="cmci">${it.emoji}</div><div class="cmcb">
+      <h3>${it.name}${it.spicy?'<span class="spicy">🌶 spicy</span>':''}</h3>
+      <p>${it.desc}</p>
+      <div class="cmcf"><span class="cpr">₹${it.price}</span>
+        ${canOrd?`<button class="cab" onclick="addCart('${it.name.replace(/'/g,"\\'")}',${it.price})">+</button>`:''}
+      </div>
+    </div></div>`).join(''):'<div style="color:var(--text2);font-size:13px;grid-column:1/-1;padding:1rem 0">No items in this category yet.</div>';
+}
+function addCart(name,price){
+  const ex=cartItems.find(i=>i.name===name);
+  if(ex)ex.qty++;else cartItems.push({name,price,qty:1});
+  const tot=cartItems.reduce((s,i)=>s+i.price*i.qty,0);
+  const cnt=cartItems.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('ccount').textContent=cnt+' item'+(cnt>1?'s':'');
+  document.getElementById('ctotal').textContent='₹'+tot;
+  document.getElementById('cbar').style.display='block';
+  toast('✓ '+name+' added');
+}
+
+// ── CHECKOUT ──
+function openCheckout(){
+  if(!cartItems.length)return;
+  selPay='';
+  document.getElementById('chkform').style.display='block';
+  document.getElementById('chksucc').style.display='none';
+  document.getElementById('upishow').textContent=store.upiId;
+  ['coname','cophone','coaddr','upiref','cardno','cardname','cardexp','cardcvv','walletref'].forEach(id=>document.getElementById(id).value='');
+  // build order summary
+  const tot=cartItems.reduce((s,i)=>s+i.price*i.qty,0);
+  document.getElementById('co-list').innerHTML=
+    cartItems.map(i=>`<div class="cline"><span>${i.name} × ${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('')+
+    `<div class="cline total"><span>Total</span><span>₹${tot}</span></div>`;
+  // build payment methods
+  const methods=[];
+  if(store.sett.upi)   methods.push({id:'UPI',   icon:'📱',name:'UPI',   sub:'PhonePe, GPay, Paytm'});
+  if(store.sett.card)  methods.push({id:'Card',  icon:'💳',name:'Card',  sub:'Debit / Credit card'});
+  if(store.sett.cash)  methods.push({id:'Cash',  icon:'💵',name:'Cash',  sub:'Pay at counter'});
+  if(store.sett.cod)   methods.push({id:'COD',   icon:'🚴',name:'Cash on Delivery',sub:'Pay on arrival'});
+  if(store.sett.wallet)methods.push({id:'Wallet',icon:'👛',name:'Wallet',sub:'Paytm / Amazon Pay'});
+  document.getElementById('pmgrid').innerHTML=methods.map(m=>`
+    <div class="pm" id="pm${m.id}" onclick="selMethod('${m.id}')">
+      <div class="pmi">${m.icon}</div>
+      <div class="pmn">${m.name}</div>
+      <div class="pms">${m.sub}</div>
+    </div>`).join('');
+  // hide all details
+  ['dUPI','dCard','dCash','dCOD','dWallet'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('chkmodal').classList.add('open');
+}
+function selMethod(m){
+  selPay=m;
+  document.querySelectorAll('.pm').forEach(el=>el.classList.remove('sel'));
+  const el=document.getElementById('pm'+m);if(el)el.classList.add('sel');
+  ['dUPI','dCard','dCash','dCOD','dWallet'].forEach(id=>document.getElementById(id).style.display='none');
+  const map={UPI:'dUPI',Card:'dCard',Cash:'dCash',COD:'dCOD',Wallet:'dWallet'};
+  if(map[m])document.getElementById(map[m]).style.display='block';
+}
+function copyUPI(){navigator.clipboard.writeText(store.upiId).catch(()=>{});toast('✓ UPI ID copied!');}
+function placeOrder(){
+  const name=document.getElementById('coname').value.trim();
+  const phone=document.getElementById('cophone').value.trim();
+  const addr=document.getElementById('coaddr').value.trim();
+  if(!name||!phone||!addr){toast('Please fill in all your details');return;}
+  if(!selPay){toast('Please select a payment method');return;}
+  if(selPay==='UPI'&&!document.getElementById('upiref').value.trim()){toast('Please enter UPI transaction ID');return;}
+  if(selPay==='Wallet'&&!document.getElementById('walletref').value.trim()){toast('Please enter wallet transaction ID');return;}
+  if(selPay==='Card'){
+    if(!document.getElementById('cardno').value.trim()||!document.getElementById('cardname').value.trim()||
+       !document.getElementById('cardexp').value.trim()||!document.getElementById('cardcvv').value.trim()){
+      toast('Please fill in all card details');return;
+    }
+  }
+  const tot=cartItems.reduce((s,i)=>s+i.price*i.qty,0);
+  const oid='#'+String(Math.floor(Math.random()*90000)+10000);
+  const isPaid=selPay==='UPI'||selPay==='Wallet'||selPay==='Card';
+  const newOrder={id:oid,customer:name,phone,addr,
+    items:cartItems.map(i=>i.name+(i.qty>1?' ×'+i.qty:'')).join(', '),
+    total:tot,method:selPay.toLowerCase(),status:isPaid?'paid':'pending',
+    time:new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})};
+  orders.unshift(newOrder);
+  // update success screen
+  document.getElementById('soid').textContent=oid;
+  const methColors={UPI:'background:rgba(59,130,246,.15);color:#60A5FA',Card:'background:rgba(168,85,247,.15);color:#C084FC',
+    Cash:'background:rgba(245,197,24,.15);color:var(--brand)',COD:'background:rgba(34,197,94,.15);color:#4ADE80',
+    Wallet:'background:rgba(236,72,153,.15);color:#F472B6'};
+  const smeth=document.getElementById('smeth');
+  smeth.style.cssText=methColors[selPay]||'';
+  smeth.textContent='Payment: '+selPay+(isPaid?' · Confirmed':'· On delivery');
+  document.getElementById('chkform').style.display='none';
+  document.getElementById('chksucc').style.display='block';
+  // reset cart
+  cartItems=[];document.getElementById('cbar').style.display='none';
+  document.getElementById('ccount').textContent='0 items';document.getElementById('ctotal').textContent='₹0';
+  // WA notification
+  if(store.sett.wa&&store.phone){
+    const msg=`🍗 New Order ${oid}!\nCustomer: ${name} (${phone})\nItems: ${newOrder.items}\nTotal: ₹${tot}\nPayment: ${selPay}\nAddress: ${addr}`;
+    setTimeout(()=>window.open('https://wa.me/'+store.phone.replace(/[^0-9]/g,'')+'?text='+encodeURIComponent(msg),'_blank'),500);
+  }
+}
+
+// ── UTILS ──
+function toast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2300);
+}
+document.getElementById('lp').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+// format card number
+document.addEventListener('input',e=>{
+  if(e.target.id==='cardno'){
+    let v=e.target.value.replace(/\D/g,'').substring(0,16);
+    e.target.value=v.replace(/(.{4})/g,'$1 ').trim();
+  }
+  if(e.target.id==='cardexp'){
+    let v=e.target.value.replace(/\D/g,'').substring(0,4);
+    if(v.length>=2)v=v.substring(0,2)+' / '+v.substring(2);
+    e.target.value=v;
+  }
+});
+</script>
+</body>
+</html>
